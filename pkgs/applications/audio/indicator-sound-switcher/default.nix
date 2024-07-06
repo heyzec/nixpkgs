@@ -56,9 +56,16 @@ python3Packages.buildPythonApplication rec {
   ];
 
 postInstall = ''
+    ls $out/share/icons/
     find $out/share/icons -name '*.svg' -exec ${inkscape}/bin/inkscape --actions="select-all;object-rotate-90-cw;object-rotate-90-cw" --export-overwrite "{}" \;
 
     find $out/share/icons -name '*.png' -exec ${imagemagick}/bin/convert "{}" -fuzz 9% -fill red -opaque black -rotate 90 "{}" \;
+
+    find $out/share/icons -name '*.symbolic.png' -exec rm "{}" \;
+    rm -rf $out/share/icons/hicolor/symbolic
+    rm $out/share/icons/hicolor/scalable/apps/indicator-sound-switcher.svg
+    mv $out/share/icons/hicolor/scalable/status/indicator-sound-switcher-symbolic.svg $out/share/icons/hicolor/scalable/apps/indicator-sound-switcher-symbolic.svg
+    rmdir $out/share/icons/hicolor/scalable/status/
 '';
 
   meta = with lib; {
