@@ -11,6 +11,8 @@
 , libpulseaudio
 , keybinder3
 , gdk-pixbuf
+, inkscape
+, imagemagick
 }:
 
 python3Packages.buildPythonApplication rec {
@@ -35,6 +37,7 @@ python3Packages.buildPythonApplication rec {
     wrapGAppsHook
     glib
     gdk-pixbuf
+    gobject-introspection
   ];
 
   buildInputs = [
@@ -51,6 +54,12 @@ python3Packages.buildPythonApplication rec {
     libpulseaudio
     keybinder3
   ];
+
+postInstall = ''
+    find $out/share/icons -name '*.svg' -exec ${inkscape}/bin/inkscape --actions="select-all;object-rotate-90-cw;object-rotate-90-cw" --export-overwrite "{}" \;
+
+    find $out/share/icons -name '*.png' -exec ${imagemagick}/bin/convert "{}" -fuzz 9% -fill red -opaque black -rotate 90 "{}" \;
+'';
 
   meta = with lib; {
     description = "Sound input/output selector indicator for Linux";
