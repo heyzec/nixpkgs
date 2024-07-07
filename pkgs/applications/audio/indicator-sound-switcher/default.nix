@@ -57,6 +57,6 @@ python3Packages.buildPythonApplication rec {
     homepage = "https://yktoo.com/en/software/sound-switcher-indicator/";
     license = licenses.gpl3Plus;
     maintainers = with maintainers; [ alexnortung ];
-    platforms = [ "x86_64-linux" ];
+    platforms = platforms.linux;
   };
 }
