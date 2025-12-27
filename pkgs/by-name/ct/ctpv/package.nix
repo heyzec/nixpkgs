@@ -39,6 +39,8 @@ stdenv.mkDerivation rec {
 
   makeFlags = [ "PREFIX=$(out)" ];
 
+  CFLAGS = [ "-fsigned-char" ];
+
   preFixup = ''
     wrapProgram $out/bin/ctpv \
       --prefix PATH ":" "${
